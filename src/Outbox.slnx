@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../README.md" />
+    <File Path=".env" />
+    <File Path="compose.yaml" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+  </Folder>
+  <Project Path="Outbox.Api/Outbox.Api.csproj" />
+  <Project Path="Outbox.Application/Outbox.Application.csproj" />
+  <Project Path="Outbox.Common/Outbox.Common.csproj" />
+  <Project Path="Outbox.Domain/Outbox.Domain.csproj" />
+  <Project Path="Outbox.Infrastructure/Outbox.Infrastructure.csproj" />
+  <Project Path="Outbox.Service/Outbox.Service.csproj" />
+  <Project Path="Outbox.Ui/Outbox.Ui.csproj" />
+</Solution>

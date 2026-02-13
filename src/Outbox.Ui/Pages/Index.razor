@@ -1,0 +1,165 @@
+@page "/"
+@inject ApiService Api
+@inject NavigationManager Navigation
+@inject ILogger<Index> Logger
+@rendermode RenderMode.InteractiveServer
+@implements IAsyncDisposable
+
+<PageTitle>Add User</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Add User</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control form-control-lg" @bind="_newUserName" placeholder="Enter name"/>
+                    </div>
+                    <button class="btn btn-primary btn-lg w-100" @onclick="CreateUser" disabled="@_isCreating">
+                        @if (_isCreating)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                        }
+                        Add User
+                    </button>
+                    @if (!string.IsNullOrEmpty(_message))
+                    {
+                        <div class="alert alert-info mt-3 mb-0">@_message</div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0">Outbox Messages</h4>
+                </div>
+                <div class="card-body">
+                    @if (_isLoadingMessages)
+                    {
+                        <div class="text-center py-4">
+                            <div class="spinner-border"></div>
+                        </div>
+                    }
+                    else if (_messages == null || !_messages.Any())
+                    {
+                        <p class="text-muted mb-0">No outbox messages found.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var msg in _messages)
+                                    {
+                                        <tr>
+                                            <td>@msg.Content</td>
+                                            <td>
+                                                @if (msg.ProcessedOnUtc.HasValue)
+                                                {
+                                                    <span class="badge bg-success">Processed</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning">Unprocessed</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string _newUserName = string.Empty;
+    private string _message = string.Empty;
+    private bool _isCreating;
+    private List<OutboxMessageDto>? _messages;
+    private bool _isLoadingMessages;
+    private HubConnection? _hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMessages();
+        await StartSignalRConnection();
+    }
+
+    private async Task StartSignalRConnection()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/outboxhub"))
+            .Build();
+
+        _hubConnection.On("MessageProcessed", async () =>
+        {
+            await LoadMessages();
+            await InvokeAsync(StateHasChanged);
+        });
+
+        await _hubConnection.StartAsync();
+    }
+
+    private async Task LoadMessages()
+    {
+        _isLoadingMessages = true;
+        try
+        {
+            _messages = await Api.GetOutboxMessagesAsync();
+        }
+        catch (Exception ex)
+        {
+            _messages = [];
+            Logger.LogError(ex, "Error loading messages: {Message}", ex.Message);
+        }
+        finally
+        {
+            _isLoadingMessages = false;
+        }
+    }
+
+    private async Task CreateUser()
+    {
+        if (string.IsNullOrWhiteSpace(_newUserName))
+            return;
+
+        _isCreating = true;
+        _message = string.Empty;
+
+        try
+        {
+            await Api.CreateUserAsync(_newUserName);
+            _message = $"User '{_newUserName}' created successfully!";
+            _newUserName = string.Empty;
+            await LoadMessages();
+        }
+        catch (Exception ex)
+        {
+            _message = ex.Message;
+        }
+        finally
+        {
+            _isCreating = false;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection is not null)
+            await _hubConnection.DisposeAsync();
+    }
+}
