@@ -1,6 +1,6 @@
 # Outbox
 
-An output of some study time into some exploration of the Transactional Outbox Pattern for reliable messaging in distributed systems.
+An output of some study time into exploration of the Transactional Outbox Pattern for reliable messaging in distributed systems.
 
 ## Inspiration
 
