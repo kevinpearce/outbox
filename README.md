@@ -1,10 +1,6 @@
 # Outbox
 
-Transactional Outbox Experimentation
-
-## Description
-
-An output of some study time into some exploration of the Outbox Pattern for reliable messaging in distributed systems.
+An output of some study time into some exploration of the Transactional Outbox Pattern for reliable messaging in distributed systems.
 
 ## Inspiration
 
