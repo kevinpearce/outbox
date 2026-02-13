@@ -31,7 +31,7 @@ docker compose up --build  # Will force a rebuild of the containers and start th
 docker compose down        # Will stop and remove the containers and refresh the database
 ```
 
-![Example UI](docs/example.png)
+<img src="docs/example.png" alt="Example UI" width="500" />
 
 ## Overall Architecture
 
