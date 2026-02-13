@@ -17,6 +17,7 @@ An output of some study time into some exploration of the Transactional Outbox P
 
 1. Build and run the project using Docker Compose
 2. Navigate to the exposed UI endpoint, http://localhost:5002
+3. Swagger UI is also available at http://localhost:5001 to interact with the API directly
 
 ```shell
 # Common Commands

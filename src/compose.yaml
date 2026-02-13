@@ -27,7 +27,7 @@
       ASPNETCORE_URLS: "http://0.0.0.0:${API_PORT}"
       ConnectionStrings__DefaultConnection: "Server=${DB_SERVER},${SQL_PORT};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};TrustServerCertificate=True"
     ports:
-      - "5000:${API_PORT}"
+      - "${API_PORT}:${API_PORT}"
 
   ui:
     build:
