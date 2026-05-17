@@ -9,6 +9,7 @@ public static class GetUserById
         Guid id, IUserService userService, CancellationToken cancellationToken)
     {
         var user = await userService.GetUserByIdAsync(id, cancellationToken);
+        
         return user == null ? TypedResults.NotFound() : TypedResults.Ok(user);
     }
 }

@@ -8,6 +8,14 @@ An output of some study time into exploration of the Transactional Outbox Patter
 - [Microsoft Learn - CosmosDB Implementation](https://learn.microsoft.com/en-us/azure/architecture/databases/guide/transactional-outbox-cosmos)
 - [Microsoft Learn - EF Interceptors](https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors)
 
+### Update - May 2026
+
+- Experimentation with Minimal API's and Vertical Slicing
+- [Tess Ferrandez Blog Post - Minimal API's](https://www.tessferrandez.com/blog/2023/10/31/organizing-minimal-apis.html)
+- Swapped out Api in Compose for this new approach
+- Removed Swagger endpoint and added http file for testing
+- Original API code still available in the `src/Outbox.Api` directory for reference
+
 ## Local Development setup to run the example project
 
 ### Requirements
@@ -17,7 +25,7 @@ An output of some study time into exploration of the Transactional Outbox Patter
 
 1. Build and run the project using Docker Compose
 2. Navigate to the exposed UI endpoint, http://localhost:5002
-3. Swagger UI is also available at http://localhost:5001 to interact with the API directly
+3. ~~Swagger UI is also available at http://localhost:5001 to interact with the API directly~~ see May 2026 update above
 
 ```shell
 # Common Commands

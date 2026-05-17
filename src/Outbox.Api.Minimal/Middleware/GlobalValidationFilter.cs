@@ -11,6 +11,7 @@ public class GlobalValidationFilter<TRequest>(ILogger<GlobalValidationFilter<TRe
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var (validator, request) = GetValidatorAndRequest(context);
+        
         var validationResult = await validator.ValidateAsync(request, context.HttpContext.RequestAborted);
         if (validationResult.IsValid) return await next(context);
 

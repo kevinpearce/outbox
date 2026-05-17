@@ -1,0 +1,34 @@
+### Variables
+@baseUrl = http://localhost:5001
+
+### OpenAPI Spec
+GET {{baseUrl}}/openapi/v1.json
+Accept: application/json
+
+### Create User
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Alice"
+}
+
+### Create User - Invalid (Empty Name)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+### Get User by ID (use created user ID from above)
+GET {{baseUrl}}/users/a4ab73e4-a5ff-4f6a-bb49-021a2e6607eb
+Accept: application/json
+
+### Get User by ID - Not Found
+GET {{baseUrl}}/users/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+### Get All Outbox Messages
+GET {{baseUrl}}/outbox
+Accept: application/json

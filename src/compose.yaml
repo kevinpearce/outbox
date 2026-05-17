@@ -18,7 +18,7 @@
   api:
     build:
       context: .
-      dockerfile: Outbox.Api/Dockerfile
+      dockerfile: Outbox.Api.Minimal/Dockerfile
     container_name: outbox-api
     depends_on:
       sql:
