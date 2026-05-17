@@ -13,7 +13,7 @@ builder.Services.AddLoggingService();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure();
 builder.Services.AddUserServices(builder.Configuration);
 builder.Services.AddOutboxServices();
 

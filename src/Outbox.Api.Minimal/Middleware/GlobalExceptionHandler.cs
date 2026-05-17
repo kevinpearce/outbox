@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace Outbox.Api.Minimal.Middleware;
@@ -13,7 +14,6 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
         logger.LogError(exception, LogMessageTemplate, exception.Message);
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        httpContext.Response.ContentType = ProblemDetailsContentType;
 
         var problemDetails = new
         {
@@ -22,7 +22,8 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
             detail = exception.Message
         };
 
-        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync
+            (problemDetails, (JsonSerializerOptions?)null, ProblemDetailsContentType, cancellationToken);
 
         return true;
     }

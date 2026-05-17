@@ -15,7 +15,7 @@ builder.Services.Configure<ValidationSettings>(builder.Configuration.GetSection(
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOutboxService, OutboxService>();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
